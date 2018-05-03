@@ -16,6 +16,8 @@ public enum TokenType {
     Int,
     String,
     Bool,
+    True,
+    False,
     Rectangle,
     Print,
     Rect_x,
@@ -51,4 +53,5 @@ public enum TokenType {
     dot,
     semicolon,
     EOF,
+    TOKEN_MAX,
 }

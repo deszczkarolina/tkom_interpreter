@@ -25,6 +25,7 @@ import java.lang.String;
 public class Scanner {
 
     public final static HashMap<String, TokenType> symbolTable;
+    public final static HashMap<String, TokenType> operators;
     public final static int MAXIDLEN = 20;
     public final static int MAXTXTLEN = 40;
 
@@ -38,6 +39,8 @@ public class Scanner {
         symbolTable.put("int", Int);
         symbolTable.put("string", String);
         symbolTable.put("bool", Bool);
+        symbolTable.put("true", True);
+        symbolTable.put("false", False);
         symbolTable.put("Rectangle", Rectangle);
         symbolTable.put("print", Print);
         symbolTable.put("x", Rect_x);
@@ -46,6 +49,21 @@ public class Scanner {
         symbolTable.put("length", Rect_length);
         symbolTable.put("area", Rect_area);
         symbolTable.put("perimeter", Rect_permimeter);
+
+        operators = new HashMap<>();
+
+        operators.put("+", addop);
+        operators.put("-", subop);
+        operators.put("*", mulop);
+        operators.put("/", divop);
+
+        operators.put(".", dot);
+        operators.put(",", coma);
+        operators.put(";", semicolon);
+        operators.put("(", lbracket);
+        operators.put(")", rbracket);
+        operators.put("{", lcurlybracket);
+        operators.put("}", rcurlybracket);
     }
 
     private Source src;
@@ -104,47 +122,6 @@ public class Scanner {
         else return ident;
     }
 
-    private TokenType opToken() throws IOException, InvalidToken {
-        switch (currentChar) {
-            case '+':
-                nextChar();
-                return addop;
-            case '-':
-                nextChar();
-                return subop;
-            case '*':
-                nextChar();
-                return mulop;
-            case '/':
-                nextChar();
-                return divop;
-            case '.':
-                nextChar();
-                return dot;
-            case ',':
-                nextChar();
-                return coma;
-            case ';':
-                nextChar();
-                return semicolon;
-            case '(':
-                nextChar();
-                return lbracket;
-            case ')':
-                nextChar();
-                return rbracket;
-            case '{':
-                nextChar();
-                return lcurlybracket;
-            case '}':
-                nextChar();
-                return rcurlybracket;
-            default:
-                nextChar();
-                throw new InvalidToken(tokenPos);
-        }
-    }
-
     private TokenType operatorToken() throws IOException, StringTooLongException, InvalidToken {
         switch (currentChar) {
             case '"':
@@ -187,12 +164,14 @@ public class Scanner {
                 } else return gtop;
 
             default:
-                return opToken();
+                if (operators.containsKey(currentChar))
+                    return operators.get(currentChar);
+                else throw new InvalidToken(tokenPos);
         }
     }
 
     private TokenType intConstToken() throws IntTooBigException, IOException {
-        int c = 0;
+        long c = 0;
         boolean isTooBig = false;
         do {
             c = c * 10 + (currentChar - '0');
@@ -206,13 +185,15 @@ public class Scanner {
     }
 
     private TokenType textToken() throws IOException, StringTooLongException {
-        int length = 0;
+        id = new StringBuilder();
+        nextChar();
         do {
-            length++;
+            if (id.length() <= MAXTXTLEN)
+                id.append((char) currentChar);
+            else throw new StringTooLongException(tokenPos);
             nextChar();
         } while (currentChar != '"');
         nextChar();
-        if (length > MAXTXTLEN) throw new StringTooLongException(tokenPos);
         return textconst;
     }
 
@@ -239,6 +220,7 @@ public class Scanner {
         return id.toString();
     }
 
+    public TextPos getTokenPos() {return  tokenPos;}
 
 }
 

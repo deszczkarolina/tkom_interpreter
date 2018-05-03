@@ -74,6 +74,7 @@ public class ScannerTest {
         InputStream in = IOUtils.toInputStream(txt, "UTF-8");
         Scanner scn = new Scanner(in);
         assertEquals(textconst, scn.nextToken());
+        assertEquals("abc", scn.getIdent());
         assertEquals(EOF, scn.nextToken());
     }
 
