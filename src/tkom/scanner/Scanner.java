@@ -25,7 +25,7 @@ import java.lang.String;
 public class Scanner {
 
     public final static HashMap<String, TokenType> symbolTable;
-    public final static HashMap<String, TokenType> operators;
+    public final static HashMap<Character, TokenType> operators;
     public final static int MAXIDLEN = 20;
     public final static int MAXTXTLEN = 40;
 
@@ -52,18 +52,18 @@ public class Scanner {
 
         operators = new HashMap<>();
 
-        operators.put("+", addop);
-        operators.put("-", subop);
-        operators.put("*", mulop);
-        operators.put("/", divop);
+        operators.put('+', addop);
+        operators.put('-', subop);
+        operators.put('*', mulop);
+        operators.put('/', divop);
 
-        operators.put(".", dot);
-        operators.put(",", coma);
-        operators.put(";", semicolon);
-        operators.put("(", lbracket);
-        operators.put(")", rbracket);
-        operators.put("{", lcurlybracket);
-        operators.put("}", rcurlybracket);
+        operators.put('.', dot);
+        operators.put(',', coma);
+        operators.put(';', semicolon);
+        operators.put('(', lbracket);
+        operators.put(')', rbracket);
+        operators.put('{', lcurlybracket);
+        operators.put('}', rcurlybracket);
     }
 
     private Source src;
@@ -164,8 +164,11 @@ public class Scanner {
                 } else return gtop;
 
             default:
-                if (operators.containsKey(currentChar))
-                    return operators.get(currentChar);
+                if (operators.containsKey((char)currentChar)) {
+                    int tmp = currentChar;
+                    nextChar();
+                    return operators.get((char) tmp);
+                }
                 else throw new InvalidToken(tokenPos);
         }
     }

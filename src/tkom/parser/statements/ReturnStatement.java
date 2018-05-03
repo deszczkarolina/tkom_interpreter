@@ -33,32 +33,5 @@ public class ReturnStatement extends Statement {
         return Node.Type.ReturnStatement;
     }
 
-    /**
-     * Created by karolina on 24.04.18.
-     */
-    public static class AssignStatement extends Statement {
 
-        private String ident;
-        private Value value;
-
-
-
-        public AssignStatement(String ident, Value value) {
-            this.ident = ident;
-            this.value = value;
-        }
-
-        @Override
-        public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
-            if (!value.execute(scope, functions))
-                return false;
-            scope.changeVariableValue(ident, value.getValue());
-            return true;
-        }
-
-        @Override
-        public Type getType() {
-            return Type.AssignStatement;
-        }
-    }
 }

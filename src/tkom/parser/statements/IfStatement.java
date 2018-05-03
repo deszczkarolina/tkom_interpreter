@@ -12,10 +12,10 @@ import java.util.HashMap;
 public class IfStatement extends Statement {
 
     private OrCondition condition;
-    private VarDeclarationStatement.BlockStatement trueBlock;
-    private VarDeclarationStatement.BlockStatement falseBlock;
+    private BlockStatement trueBlock;
+    private BlockStatement falseBlock;
 
-    public IfStatement(OrCondition condition, VarDeclarationStatement.BlockStatement trueBlock, VarDeclarationStatement.BlockStatement falseBlock) {
+    public IfStatement(OrCondition condition, BlockStatement trueBlock, BlockStatement falseBlock) {
         this.condition = condition;
         this.trueBlock = trueBlock;
         this.falseBlock = falseBlock;

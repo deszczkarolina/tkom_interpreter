@@ -11,10 +11,10 @@ import java.util.HashMap;
  */
 public class WhileStatement extends Statement {
 
-    private VarDeclarationStatement.BlockStatement block;
+    private BlockStatement block;
     private OrCondition condition;
 
-   public WhileStatement(OrCondition condition, VarDeclarationStatement.BlockStatement block) {
+   public WhileStatement(OrCondition condition, BlockStatement block) {
         this.block = block;
         this.condition = condition;
     }

@@ -15,16 +15,16 @@ public class FunctionDefinition extends Node {
 
     private String name;
     private LinkedHashMap<String,TokenType> parameters;
-    private VarDeclarationStatement.BlockStatement block;
+    private BlockStatement block;
 
     public String getName() {
         return name;
     }
-    public VarDeclarationStatement.BlockStatement getBlock() {
+    public BlockStatement getBlock() {
         return block;
     }
 
-   public FunctionDefinition(String name, LinkedHashMap<String,TokenType> parameters, VarDeclarationStatement.BlockStatement block) {
+   public FunctionDefinition(String name, LinkedHashMap<String,TokenType> parameters, BlockStatement block) {
         this.name = name;
         this.parameters = parameters;
         this.block = block;
