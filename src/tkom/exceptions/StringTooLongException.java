@@ -6,7 +6,7 @@ import tkom.source.TextPos;
  * Created by karolina on 15.04.18.
  */
 public class StringTooLongException extends Exception {
-    TextPos pos;
+    private TextPos pos;
 
     public StringTooLongException(TextPos pos) {
         this.pos = pos;

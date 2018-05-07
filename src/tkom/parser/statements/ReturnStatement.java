@@ -19,7 +19,7 @@ public class ReturnStatement extends Statement {
 
     @Override
     public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
-        if(!expression.execute(scope, functions))
+        if (!expression.execute(scope, functions))
             return false;
         Object value;
         value = expression.getValue();

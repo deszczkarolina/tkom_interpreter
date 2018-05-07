@@ -5,7 +5,9 @@ package tkom.parser;
  */
 public abstract class Node {
 
-    public enum Type{
+    public abstract Type getType();
+
+    public enum Type {
         AssignStatement,
         FunctionCallStatement,
         IfStatement,
@@ -30,6 +32,4 @@ public abstract class Node {
         FunctionDefinition,
         Identifier,
     }
-
-    public abstract Type getType();
 }

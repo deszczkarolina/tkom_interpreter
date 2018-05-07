@@ -21,13 +21,6 @@ public class Expression extends Value {
         this.operand = operand;
         this.negate = negate;
     }
-    public Value getOperand() {
-        return operand;
-    }
-
-    public boolean isNegate() {
-        return negate;
-    }
 
     @Override
     public Object getValue() {
@@ -36,13 +29,13 @@ public class Expression extends Value {
 
     @Override
     public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
-       if (!operand.execute(scope, functions))
+        if (!operand.execute(scope, functions))
             return false;
         value = operand.getValue();
-       if(negate)
-          value = (int)value * (-1);
-         return true;
-   }
+        if (negate)
+            value = (int) value * (-1);
+        return true;
+    }
 
     @Override
     public Type getType() {

@@ -18,7 +18,7 @@ public class ComCondition extends Logical {
     public ComCondition(Logical operand, boolean negate) {
         this.operand = operand;
         this.negate = negate;
-     }
+    }
 
     @Override
     public boolean getValue() {
@@ -30,7 +30,7 @@ public class ComCondition extends Logical {
         if (!operand.execute(scope, functions))
             return false;
         value = operand.getValue();
-        if(negate)
+        if (negate)
             value = !value;
         return true;
     }

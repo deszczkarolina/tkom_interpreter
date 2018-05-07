@@ -16,19 +16,19 @@ public class Program extends Node {
     private Object value;
 
 
+    public Program(Vector<FunctionDefinition> functions) {
+        this.functions = functions;
+        this.value = 1;
+    }
+
     public Object getValue() {
         return value;
     }
 
-    public Program(Vector<FunctionDefinition> functions) {
-    this.functions = functions;
-        this.value = 1;
-    }
-
     public boolean execute() throws Exception {
 
-       HashMap<String, FunctionDefinition> definedFunctions = new HashMap<>();
-        for (FunctionDefinition it: functions) {
+        HashMap<String, FunctionDefinition> definedFunctions = new HashMap<>();
+        for (FunctionDefinition it : functions) {
             definedFunctions.put(it.getName(), it);
         }
         if (!definedFunctions.containsKey("main"))
@@ -38,7 +38,7 @@ public class Program extends Node {
         Vector<AddExpression> arguments = new Vector<>();
         Scope scope = new Scope();
         FunctionCallStatement main = new FunctionCallStatement("main", arguments);
-        if(!main.execute(scope, definedFunctions))
+        if (!main.execute(scope, definedFunctions))
             return false;
         value = main.getValue();
         return true;

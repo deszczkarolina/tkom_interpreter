@@ -18,6 +18,13 @@ public class Condition extends Logical {
     private TokenType logOp;
     private boolean value;
 
+    public Condition(AddExpression leftOperand, AddExpression rightOperand, TokenType logOp) {
+        this.leftOperand = leftOperand;
+        this.rightOperand = rightOperand;
+        this.logOp = logOp;
+
+    }
+
     public AddExpression getLeftOperand() {
         return leftOperand;
     }
@@ -34,15 +41,6 @@ public class Condition extends Logical {
         return value;
     }
 
-
-
-    public Condition(AddExpression leftOperand, AddExpression rightOperand, TokenType logOp) {
-        this.leftOperand = leftOperand;
-        this.rightOperand = rightOperand;
-        this.logOp = logOp;
-
-    }
-
     @Override
     public boolean getValue() {
         return value;
@@ -55,8 +53,7 @@ public class Condition extends Logical {
         if (!rightOperand.execute(scope, functions))
             return false;
 
-        switch(logOp)
-        {
+        switch (logOp) {
             case eqop:
                 value = (leftOperand.getValue() == rightOperand.getValue());
                 break;

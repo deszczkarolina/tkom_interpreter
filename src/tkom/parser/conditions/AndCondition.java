@@ -12,7 +12,7 @@ import java.util.Vector;
  */
 public class AndCondition extends Logical {
 
-    private Vector<ComCondition>  operands;
+    private Vector<ComCondition> operands;
     private boolean value;
 
     public AndCondition(Vector<ComCondition> operands) {
@@ -27,7 +27,7 @@ public class AndCondition extends Logical {
 
     @Override
     public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
-        for(ComCondition it: operands) {
+        for (ComCondition it : operands) {
             if (!it.execute(scope, functions))
                 return false;
             if (!it.getValue()) {

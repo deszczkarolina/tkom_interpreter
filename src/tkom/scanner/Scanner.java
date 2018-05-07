@@ -9,14 +9,13 @@ import tkom.source.TextPos;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.String;
 import java.util.HashMap;
 
 import static java.lang.Character.*;
 import static tkom.scanner.TokenType.*;
 import static tkom.scanner.TokenType.String;
 import static tkom.source.Source.NEWLINE;
-
-import java.lang.String;
 
 /**
  * Created by karolina on 10.04.18.
@@ -43,12 +42,12 @@ public class Scanner {
         symbolTable.put("false", False);
         symbolTable.put("Rectangle", Rectangle);
         symbolTable.put("print", Print);
-        symbolTable.put("x", Rect_x);
-        symbolTable.put("y", Rect_y);
-        symbolTable.put("width", Rect_width);
-        symbolTable.put("length", Rect_length);
-        symbolTable.put("area", Rect_area);
-        symbolTable.put("perimeter", Rect_permimeter);
+        symbolTable.put("x", RectX);
+        symbolTable.put("y", RectY);
+        symbolTable.put("width", RectWidth);
+        symbolTable.put("length", RectLength);
+        symbolTable.put("area", RectArea);
+        symbolTable.put("perimeter", RectPermimeter);
 
         operators = new HashMap<>();
 
@@ -95,18 +94,6 @@ public class Scanner {
         return true;
     }
 
-    private TokenType isRectangleField() throws IOException, InvalidToken {
-        id = new StringBuilder();
-        nextChar();
-        do {
-            id.append((char) currentChar);
-            nextChar();
-        } while (isLetter(currentChar));
-        if (symbolTable.containsKey(id.toString()))
-            return symbolTable.get(id.toString());
-        else throw new InvalidToken(tokenPos);
-    }
-
     private TokenType identOrKeywordToken() throws IOException, IdentTooLongException, InvalidToken {
         id = new StringBuilder();
         do {
@@ -114,8 +101,6 @@ public class Scanner {
                 id.append((char) currentChar);
             else throw new IdentTooLongException(tokenPos);
             nextChar();
-            if (currentChar == '.')
-                return isRectangleField();
         } while (isLetterOrDigit(currentChar));
         if (symbolTable.containsKey(id.toString()))
             return symbolTable.get(id.toString());
@@ -164,12 +149,11 @@ public class Scanner {
                 } else return gtop;
 
             default:
-                if (operators.containsKey((char)currentChar)) {
+                if (operators.containsKey((char) currentChar)) {
                     int tmp = currentChar;
                     nextChar();
                     return operators.get((char) tmp);
-                }
-                else throw new InvalidToken(tokenPos);
+                } else throw new InvalidToken(tokenPos);
         }
     }
 
@@ -223,7 +207,9 @@ public class Scanner {
         return id.toString();
     }
 
-    public TextPos getTokenPos() {return  tokenPos;}
+    public TextPos getTokenPos() {
+        return tokenPos;
+    }
 
 }
 

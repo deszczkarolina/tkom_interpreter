@@ -6,7 +6,7 @@ import tkom.source.TextPos;
  * Created by karolina on 13.04.18.
  */
 public class IntTooBigException extends Exception {
-    TextPos pos;
+    private TextPos pos;
 
     public IntTooBigException(TextPos pos) {
         this.pos = pos;

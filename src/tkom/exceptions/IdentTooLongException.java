@@ -6,7 +6,8 @@ import tkom.source.TextPos;
  * Created by karolina on 13.04.18.
  */
 public class IdentTooLongException extends Exception {
-    TextPos pos;
+
+    private TextPos pos;
 
     public IdentTooLongException(TextPos pos) {
         this.pos = pos;

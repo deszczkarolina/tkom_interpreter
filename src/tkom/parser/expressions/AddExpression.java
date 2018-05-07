@@ -9,8 +9,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
-import static java.lang.Character.isDigit;
-
 /**
  * Created by karolina on 27.04.18.
  */
@@ -28,28 +26,28 @@ public class AddExpression extends Value {
 
     @Override
     public java.lang.Object getValue() {
-      return value;
+        return value;
     }
 
     @Override
     public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
-        Iterator<MulExpression>  operandsIt = operands.iterator();
+        Iterator<MulExpression> operandsIt = operands.iterator();
         Iterator<TokenType> operatorsIt = operators.iterator();
         MulExpression tmp;
         TokenType op;
-        tmp =  operandsIt.next();
-        if(!tmp.execute(scope,functions))
-             return false;
+        tmp = operandsIt.next();
+        if (!tmp.execute(scope, functions))
+            return false;
         value = tmp.getValue();
-        while( operandsIt.hasNext()){
-            tmp =  operandsIt.next();
-            if(!tmp.execute(scope,functions))
+        while (operandsIt.hasNext()) {
+            tmp = operandsIt.next();
+            if (!tmp.execute(scope, functions))
                 return false;
             op = operatorsIt.next();
             if (op == TokenType.addop)
                 value = add(value, tmp.getValue());
-           else
-               value = subtract(value, tmp.getValue());
+            else
+                value = subtract(value, tmp.getValue());
         }
         return true;
     }

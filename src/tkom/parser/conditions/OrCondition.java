@@ -27,7 +27,7 @@ public class OrCondition extends Logical {
 
     @Override
     public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
-        for(AndCondition it: operands) {
+        for (AndCondition it : operands) {
             if (!it.execute(scope, functions))
                 return false;
             if (it.getValue()) {

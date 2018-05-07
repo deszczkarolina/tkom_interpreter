@@ -34,13 +34,13 @@ public class MulExpression extends Value {
         Iterator<TokenType> operatorsIt = operators.iterator();
         Expression tmp;
         TokenType op;
-        tmp =  operandsIt.next();
-        if(!tmp.execute(scope,functions))
+        tmp = operandsIt.next();
+        if (!tmp.execute(scope, functions))
             return false;
         value = tmp.getValue();
-        while(operandsIt.hasNext()){
+        while (operandsIt.hasNext()) {
             tmp = operandsIt.next();
-            if(!tmp.execute(scope,functions))
+            if (!tmp.execute(scope, functions))
                 return false;
             op = operatorsIt.next();
             if (op == TokenType.mulop)

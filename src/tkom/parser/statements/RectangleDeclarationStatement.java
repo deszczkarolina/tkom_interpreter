@@ -1,8 +1,8 @@
 package tkom.parser.statements;
 
 import tkom.parser.Node;
-import tkom.parser.types.Rectangle;
 import tkom.parser.Scope;
+import tkom.parser.types.Rectangle;
 
 import java.util.HashMap;
 
@@ -22,9 +22,10 @@ public class RectangleDeclarationStatement extends Statement {
     public String getIdent() {
         return ident;
     }
+
     @Override
     public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
-        scope.addVariable(ident,rect);
+        scope.addVariable(ident, rect);
         return true;
     }
 

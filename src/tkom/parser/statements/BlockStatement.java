@@ -13,20 +13,20 @@ public class BlockStatement extends Statement {
     private Vector<Statement> statements;
 
 
-    public BlockStatement(Vector<Statement> statements){
+    public BlockStatement(Vector<Statement> statements) {
         this.statements = statements;
     }
 
     @Override
     public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
 
-        for(Statement instruction : statements){
-            if(instruction.getType() == Type.ReturnStatement){
-                if(!instruction.execute(scope,functions))
+        for (Statement instruction : statements) {
+            if (instruction.getType() == Type.ReturnStatement) {
+                if (!instruction.execute(scope, functions))
                     return false;
                 break;
             }
-            if(!instruction.execute(scope,functions))
+            if (!instruction.execute(scope, functions))
                 return false;
         }
         return true;

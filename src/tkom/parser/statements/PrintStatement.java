@@ -17,6 +17,7 @@ public class PrintStatement extends Statement {
     public PrintStatement(Value toShow) {
         this.toShow = toShow;
     }
+
     @Override
     public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
 

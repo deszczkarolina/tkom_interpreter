@@ -25,7 +25,7 @@ public class Text extends Value {
 
     @Override
     public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) {
-       return true;
+        return true;
     }
 
     @Override

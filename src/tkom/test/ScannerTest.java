@@ -5,12 +5,11 @@ import org.junit.Test;
 import tkom.scanner.Scanner;
 
 import java.io.InputStream;
+import java.lang.String;
 
 import static org.junit.Assert.assertEquals;
 import static tkom.scanner.TokenType.*;
 import static tkom.scanner.TokenType.String;
-
-import java.lang.String;
 
 /**
  * Created by karolina on 15.04.18.
@@ -50,12 +49,24 @@ public class ScannerTest {
         assertEquals(Bool, scn.nextToken());
         assertEquals(Rectangle, scn.nextToken());
         assertEquals(Print, scn.nextToken());
-        assertEquals(Rect_x, scn.nextToken());
-        assertEquals(Rect_y, scn.nextToken());
-        assertEquals(Rect_width, scn.nextToken());
-        assertEquals(Rect_length, scn.nextToken());
-        assertEquals(Rect_area, scn.nextToken());
-        assertEquals(Rect_permimeter, scn.nextToken());
+        assertEquals(ident, scn.nextToken());
+        assertEquals(dot, scn.nextToken());
+        assertEquals(RectX, scn.nextToken());
+        assertEquals(ident, scn.nextToken());
+        assertEquals(dot, scn.nextToken());
+        assertEquals(RectY, scn.nextToken());
+        assertEquals(ident, scn.nextToken());
+        assertEquals(dot, scn.nextToken());
+        assertEquals(RectWidth, scn.nextToken());
+        assertEquals(ident, scn.nextToken());
+        assertEquals(dot, scn.nextToken());
+        assertEquals(RectLength, scn.nextToken());
+        assertEquals(ident, scn.nextToken());
+        assertEquals(dot, scn.nextToken());
+        assertEquals(RectArea, scn.nextToken());
+        assertEquals(ident, scn.nextToken());
+        assertEquals(dot, scn.nextToken());
+        assertEquals(RectPermimeter, scn.nextToken());
     }
 
     @Test
