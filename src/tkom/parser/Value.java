@@ -38,14 +38,12 @@ public abstract class Value extends NotRootNode {
 
         if (a instanceof Integer && b instanceof Rectangle)
             return ((Rectangle) b).scale((int) a);
-
         else throw new Exception("cannot multiply variables of types" + a.getClass() + ", " + b.getClass());
     }
 
     protected Object divide(Object a, Object b) throws Exception {
         if (a instanceof Integer && b instanceof Integer)
             return (int) a / (int) b;
-
         else throw new Exception("cannot divide variables of types" + a.getClass() + ", " + b.getClass());
     }
 }

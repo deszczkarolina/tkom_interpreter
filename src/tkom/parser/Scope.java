@@ -1,5 +1,6 @@
 package tkom.parser;
 
+import com.sun.org.apache.regexp.internal.RE;
 import tkom.parser.statements.FunctionCallStatement;
 import tkom.parser.types.Rectangle;
 import tkom.scanner.TokenType;
@@ -19,7 +20,7 @@ public class Scope {
         this.funCall = funCall;
     }
 
-    public Scope() {
+    public Scope(){
         variables = new HashMap<>();
     }
 
@@ -51,15 +52,15 @@ public class Scope {
             variables.put(name, value);
     }
 
-    public Object changeRectangleFieldValue(String name, TokenType field, int value) throws Exception {
+    public void changeRectangleFieldValue(String name, TokenType field, int value) throws Exception {
         if (!variables.containsKey(name))
             throw new Exception("variable doesn't exist");
-        if (variables.get(name) instanceof Rectangle)
-            ((Rectangle) variables.get(name)).setField(field, value);
-        return null;
+        if (variables.get(name) instanceof Rectangle) {
+         Rectangle tmp = new Rectangle((Rectangle)variables.get(name));
+         tmp.setField(field, value);
+         variables.put(name, tmp);
+         }
     }
-
-
     public FunctionCallStatement getFunCall() {
         return funCall;
     }

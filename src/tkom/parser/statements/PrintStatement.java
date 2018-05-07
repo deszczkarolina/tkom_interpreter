@@ -13,7 +13,6 @@ public class PrintStatement extends Statement {
 
     private Value toShow;
 
-
     public PrintStatement(Value toShow) {
         this.toShow = toShow;
     }
@@ -23,7 +22,7 @@ public class PrintStatement extends Statement {
 
         if (!toShow.execute(scope, functions))
             return false;
-        System.out.println(toShow.getValue());
+        System.out.print(toShow.getValue());
         return true;
     }
 

@@ -33,7 +33,8 @@ public class AssignStatement extends Statement {
             return false;
         if (field != null)
             scope.changeRectangleFieldValue(ident, field, (int) value.getValue());
-        scope.changeVariableValue(ident, value.getValue());
+        else
+             scope.changeVariableValue(ident, value.getValue());
         return true;
     }
 

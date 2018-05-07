@@ -4,6 +4,7 @@ import tkom.parser.Logical;
 import tkom.parser.Scope;
 import tkom.parser.expressions.AddExpression;
 import tkom.parser.statements.FunctionDefinition;
+import tkom.parser.types.Rectangle;
 import tkom.scanner.TokenType;
 
 import java.util.HashMap;
@@ -55,10 +56,10 @@ public class Condition extends Logical {
 
         switch (logOp) {
             case eqop:
-                value = (leftOperand.getValue() == rightOperand.getValue());
+                value = isEqual(leftOperand.getValue(),rightOperand.getValue());
                 break;
             case neqop:
-                value = (leftOperand.getValue() != rightOperand.getValue());
+                value = !isEqual(leftOperand.getValue(),rightOperand.getValue());
                 break;
             case ltop:
                 value = isLessThen(leftOperand.getValue(), rightOperand.getValue());

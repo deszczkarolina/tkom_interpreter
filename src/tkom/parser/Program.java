@@ -34,7 +34,6 @@ public class Program extends Node {
         if (!definedFunctions.containsKey("main"))
             throw new Exception("main not found");
 
-
         Vector<AddExpression> arguments = new Vector<>();
         Scope scope = new Scope();
         FunctionCallStatement main = new FunctionCallStatement("main", arguments);

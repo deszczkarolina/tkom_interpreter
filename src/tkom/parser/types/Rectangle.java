@@ -27,6 +27,14 @@ public class Rectangle extends Value {
         calculateAreaAndPerimeter();
     }
 
+    public Rectangle(Rectangle other) {
+        this.x = other.x;
+        this.y = other.y;
+        this.width = other.width;
+        this.length = other.length;
+        calculateAreaAndPerimeter();
+    }
+
     public void calculateAreaAndPerimeter() {
         this.area = width * length;
         this.perimeter = 2 * width + 2 * length;

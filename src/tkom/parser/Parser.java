@@ -28,9 +28,6 @@ import static tkom.scanner.TokenType.String;
  */
 public class Parser {
 
-    //TODO RECTANGLE FIELD => ACCESS IDENT.FIELD
-
-
     private static Vector<TokenType> types;
     private static Vector<TokenType> relOp;
     private static Vector<TokenType> rectangleFields;
@@ -339,8 +336,7 @@ public class Parser {
         Value expression;
 
         if ((expression = parseAddExpression()) == null)
-            if ((expression = parseLogicalValue()) == null)
-                return null;
+            return null;
         if (!accept(semicolon))
             return null;
         nextToken();
