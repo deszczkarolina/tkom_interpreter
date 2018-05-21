@@ -1,6 +1,5 @@
 package tkom.parser;
 
-import com.sun.org.apache.regexp.internal.RE;
 import tkom.parser.statements.FunctionCallStatement;
 import tkom.parser.types.Rectangle;
 import tkom.scanner.TokenType;

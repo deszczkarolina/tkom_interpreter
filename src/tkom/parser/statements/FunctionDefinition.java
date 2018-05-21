@@ -14,11 +14,13 @@ import java.util.LinkedHashMap;
  */
 public class FunctionDefinition extends Node {
 
+    private TokenType type;
     private String name;
     private LinkedHashMap<String, TokenType> parameters;
     private BlockStatement block;
 
-    public FunctionDefinition(String name, LinkedHashMap<String, TokenType> parameters, BlockStatement block) {
+    public FunctionDefinition(TokenType t, String name, LinkedHashMap<String, TokenType> parameters, BlockStatement block) {
+        this.type = t;
         this.name = name;
         this.parameters = parameters;
         this.block = block;
@@ -32,6 +34,9 @@ public class FunctionDefinition extends Node {
         return block;
     }
 
+    public TokenType getFunctionType(){
+        return type;
+    }
     public LinkedHashMap<String, TokenType> getParameters() {
         return parameters;
     }

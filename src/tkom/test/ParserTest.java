@@ -110,13 +110,13 @@ public class ParserTest {
 
     @Test
     public void parseMathExpression() throws Exception {
-        String txt = "int main(){int a = 2+4*(3-1); return a;}";
+        String txt = "int main(){int a = 1-(-2); return a;}";
         InputStream in = IOUtils.toInputStream(txt, "UTF-8");
         Scanner scn = new Scanner(in);
         Parser parser = new Parser(scn);
         Program program = parser.parse();
         program.execute();
-        assertEquals(10, program.getValue());
+        assertEquals(3, program.getValue());
     }
 
     @Test
@@ -316,6 +316,31 @@ public class ParserTest {
         test.execute();
         assertEquals(6, test.getValue());
     }
+    @Test
+    public void parseInvalidFunctionDefinition() throws Exception {
+        String txt = "int main(){return true;}";
 
+        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
+        Scanner scn = new Scanner(in);
+        Parser parser = new Parser(scn);
+        Program test = parser.parse();
+
+        expectedEx.expect(Exception.class);
+        expectedEx.expectMessage("function main returns Int");
+        test.execute();
+    }
+    @Test
+    public void parseNotExistingFunctionCall() throws Exception {
+        String txt =  "int main(){return add(c,d);}";
+
+        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
+        Scanner scn = new Scanner(in);
+        Parser parser = new Parser(scn);
+        Program test = parser.parse();
+
+        expectedEx.expect(Exception.class);
+        expectedEx.expectMessage("function add wasn't defined");
+        test.execute();
+    }
 
 }

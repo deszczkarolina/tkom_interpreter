@@ -23,7 +23,6 @@ public class AddExpression extends Value {
         this.operators = operators;
     }
 
-
     @Override
     public java.lang.Object getValue() {
         return value;

@@ -111,6 +111,7 @@ public class Parser {
     private FunctionDefinition parseFunction() throws Exception {
         if (!accept(types))
             return null;
+        TokenType t = currentToken;
         nextToken();
         if (!accept(ident))
             return null;
@@ -148,7 +149,7 @@ public class Parser {
         if ((blockStatement = parseBlockStatement()) == null)
             return null;
 
-        return new FunctionDefinition(name, parameters, blockStatement);
+        return new FunctionDefinition(t, name, parameters, blockStatement);
     }
 
     private BlockStatement parseBlockStatement() throws Exception {
@@ -336,7 +337,9 @@ public class Parser {
         Value expression;
 
         if ((expression = parseAddExpression()) == null)
-            return null;
+           if ((expression = parseText()) == null)
+               if ((expression = parseLogicalValue()) == null)
+                       return null;
         if (!accept(semicolon))
             return null;
         nextToken();

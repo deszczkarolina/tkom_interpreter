@@ -12,7 +12,6 @@ public class BlockStatement extends Statement {
 
     private Vector<Statement> statements;
 
-
     public BlockStatement(Vector<Statement> statements) {
         this.statements = statements;
     }

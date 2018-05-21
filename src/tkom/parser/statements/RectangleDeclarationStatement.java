@@ -19,10 +19,6 @@ public class RectangleDeclarationStatement extends Statement {
         this.ident = ident;
     }
 
-    public String getIdent() {
-        return ident;
-    }
-
     @Override
     public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
         scope.addVariable(ident, rect);

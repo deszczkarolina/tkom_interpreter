@@ -26,22 +26,6 @@ public class Condition extends Logical {
 
     }
 
-    public AddExpression getLeftOperand() {
-        return leftOperand;
-    }
-
-    public AddExpression getRightOperand() {
-        return rightOperand;
-    }
-
-    public TokenType getLogOp() {
-        return logOp;
-    }
-
-    public boolean isValue() {
-        return value;
-    }
-
     @Override
     public boolean getValue() {
         return value;

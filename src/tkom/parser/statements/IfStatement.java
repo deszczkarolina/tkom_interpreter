@@ -21,7 +21,6 @@ public class IfStatement extends Statement {
         this.falseBlock = falseBlock;
     }
 
-
     @Override
     public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
         if (!condition.execute(scope, functions))
