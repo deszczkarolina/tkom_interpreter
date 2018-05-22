@@ -144,11 +144,6 @@ public class Rectangle extends Value {
         return this;
     }
 
-    @Override
-    public Type getType() {
-        return Type.Rectangle;
-    }
-
     public int getField(TokenType field) {
         switch (field) {
             case RectArea:

@@ -50,9 +50,4 @@ public class MulExpression extends Value {
         }
         return true;
     }
-
-    @Override
-    public Type getType() {
-        return Type.MulExpression;
-    }
 }

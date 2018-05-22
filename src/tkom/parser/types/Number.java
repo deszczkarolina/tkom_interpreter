@@ -28,8 +28,4 @@ public class Number extends Value {
         return true;
     }
 
-    @Override
-    public Type getType() {
-        return Type.Number;
-    }
 }

@@ -20,7 +20,7 @@ public class BlockStatement extends Statement {
     public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
 
         for (Statement instruction : statements) {
-            if (instruction.getType() == Type.ReturnStatement) {
+            if (instruction instanceof ReturnStatement) {
                 if (!instruction.execute(scope, functions))
                     return false;
                 break;
@@ -31,8 +31,5 @@ public class BlockStatement extends Statement {
         return true;
     }
 
-    @Override
-    public Type getType() {
-        return Type.BlockStatement;
-    }
+
 }

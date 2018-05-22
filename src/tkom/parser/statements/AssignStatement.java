@@ -38,8 +38,5 @@ public class AssignStatement extends Statement {
         return true;
     }
 
-    @Override
-    public Type getType() {
-        return Type.AssignStatement;
-    }
+
 }

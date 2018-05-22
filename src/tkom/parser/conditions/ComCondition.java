@@ -35,8 +35,4 @@ public class ComCondition extends Logical {
         return true;
     }
 
-    @Override
-    public Type getType() {
-        return Type.ComCondition;
-    }
 }

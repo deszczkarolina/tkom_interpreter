@@ -1,6 +1,5 @@
 package tkom.parser.statements;
 
-import tkom.parser.Node;
 import tkom.parser.Scope;
 import tkom.parser.types.Rectangle;
 
@@ -25,9 +24,5 @@ public class RectangleDeclarationStatement extends Statement {
         return true;
     }
 
-    @Override
-    public Node.Type getType() {
-        return Node.Type.RectangleDeclarationStatement;
-    }
 
 }

@@ -10,7 +10,7 @@ import java.util.Vector;
 /**
  * Created by karolina on 23.04.18.
  */
-public class Program extends Node {
+public class Program {
 
     private Vector<FunctionDefinition> functions;
     private Object value;
@@ -42,10 +42,6 @@ public class Program extends Node {
         value = main.getValue();
         return true;
     }
-
-    @Override
-    public Type getType() {
-        return Type.Program;
-    }
 }
+
 

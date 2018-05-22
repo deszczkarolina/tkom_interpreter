@@ -24,7 +24,7 @@ public class AddExpression extends Value {
     }
 
     @Override
-    public java.lang.Object getValue() {
+    public Object getValue() {
         return value;
     }
 
@@ -51,8 +51,4 @@ public class AddExpression extends Value {
         return true;
     }
 
-    @Override
-    public Type getType() {
-        return Type.AddExpression;
-    }
 }

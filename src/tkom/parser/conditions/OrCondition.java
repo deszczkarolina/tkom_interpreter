@@ -39,8 +39,4 @@ public class OrCondition extends Logical {
         return true;
     }
 
-    @Override
-    public Type getType() {
-        return Type.OrCondition;
-    }
 }

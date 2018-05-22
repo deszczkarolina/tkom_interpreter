@@ -37,8 +37,4 @@ public class Expression extends Value {
         return true;
     }
 
-    @Override
-    public Type getType() {
-        return Type.Expression;
-    }
 }

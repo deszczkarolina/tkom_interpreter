@@ -1,6 +1,6 @@
 package tkom.parser.statements;
 
-import tkom.parser.Node;
+
 import tkom.parser.Scope;
 import tkom.parser.conditions.OrCondition;
 
@@ -33,10 +33,5 @@ public class IfStatement extends Statement {
                 return false;
         }
         return true;
-    }
-
-    @Override
-    public Node.Type getType() {
-        return Node.Type.IfStatement;
     }
 }

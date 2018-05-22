@@ -23,11 +23,6 @@ public class Bool extends Value {
     }
 
     @Override
-    public Type getType() {
-        return Type.LogicalValue;
-    }
-
-    @Override
     public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
         return true;
     }

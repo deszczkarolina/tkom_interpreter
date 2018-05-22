@@ -81,7 +81,7 @@ public class Parser {
         if (acceptableToken == currentToken)
             return true;
         SyntaxErrorExpectedToken(acceptableToken);
-        return acceptableToken == currentToken;
+        return false;
     }
 
     private void SyntaxErrorExpectedToken(List<TokenType> expectedTokens) {
@@ -97,6 +97,7 @@ public class Parser {
                 "expected tokens: " + expectedToken.toString() +
                 "at position " + scn.getTokenPos().toString());
     }
+
 
     public Program parse() throws Exception {
         FunctionDefinition tmp;

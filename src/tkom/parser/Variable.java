@@ -39,10 +39,5 @@ public class Variable extends Value {
             value = scope.getVariableValue(name);
         return true;
     }
-
-    @Override
-    public Type getType() {
-        return Type.Identifier;
-    }
 }
 

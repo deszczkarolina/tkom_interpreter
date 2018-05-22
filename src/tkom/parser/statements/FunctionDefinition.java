@@ -1,7 +1,5 @@
 package tkom.parser.statements;
 
-
-import tkom.parser.Node;
 import tkom.parser.Scope;
 import tkom.scanner.TokenType;
 
@@ -9,10 +7,9 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 /**
- * System.out.print("error: expected token: ");
  * Created by karolina on 23.04.18.
  */
-public class FunctionDefinition extends Node {
+public class FunctionDefinition {
 
     private TokenType type;
     private String name;
@@ -45,10 +42,5 @@ public class FunctionDefinition extends Node {
     public boolean execute(HashMap<String, FunctionDefinition> functions) throws Exception {
         Scope scope = new Scope();
         return this.block.execute(scope, functions);
-    }
-
-    @Override
-    public Type getType() {
-        return Type.FunctionDefinition;
     }
 }

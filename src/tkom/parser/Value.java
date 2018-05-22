@@ -6,7 +6,7 @@ import tkom.parser.types.Rectangle;
 /**
  * Created by karolina on 27.04.18.
  */
-public abstract class Value extends NotRootNode {
+public abstract class Value extends Node {
 
     public abstract Object getValue();
 

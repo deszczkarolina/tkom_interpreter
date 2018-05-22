@@ -5,7 +5,7 @@ import tkom.parser.types.Rectangle;
 /**
  * Created by karolina on 27.04.18.
  */
-public abstract class Logical extends NotRootNode {
+public abstract class Logical extends Node {
 
     public abstract boolean getValue();
 

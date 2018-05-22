@@ -1,6 +1,5 @@
 package tkom.parser.statements;
 
-import tkom.parser.Node;
 import tkom.parser.Scope;
 import tkom.parser.Value;
 
@@ -32,10 +31,4 @@ public class VarDeclarationStatement extends Statement {
         } else scope.addVariable(ident, null);
         return true;
     }
-
-    @Override
-    public Node.Type getType() {
-        return Node.Type.VarDeclarationStatement;
-    }
-
 }

@@ -1,6 +1,5 @@
 package tkom.parser.statements;
 
-import tkom.parser.Node;
 import tkom.parser.Scope;
 import tkom.parser.Value;
 
@@ -24,10 +23,5 @@ public class PrintStatement extends Statement {
             return false;
         System.out.print(toShow.getValue());
         return true;
-    }
-
-    @Override
-    public Node.Type getType() {
-        return Node.Type.PrintStatement;
     }
 }

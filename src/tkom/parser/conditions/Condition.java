@@ -4,7 +4,6 @@ import tkom.parser.Logical;
 import tkom.parser.Scope;
 import tkom.parser.expressions.AddExpression;
 import tkom.parser.statements.FunctionDefinition;
-import tkom.parser.types.Rectangle;
 import tkom.scanner.TokenType;
 
 import java.util.HashMap;
@@ -63,8 +62,4 @@ public class Condition extends Logical {
         return true;
     }
 
-    @Override
-    public Type getType() {
-        return Type.Condition;
-    }
 }

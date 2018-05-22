@@ -27,9 +27,4 @@ public class Text extends Value {
     public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) {
         return true;
     }
-
-    @Override
-    public Type getType() {
-        return Type.Text;
-    }
 }

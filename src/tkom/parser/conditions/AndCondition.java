@@ -19,7 +19,6 @@ public class AndCondition extends Logical {
         this.operands = operands;
     }
 
-
     @Override
     public boolean getValue() {
         return value;
@@ -37,10 +36,5 @@ public class AndCondition extends Logical {
         }
         value = true;
         return true;
-    }
-
-    @Override
-    public Type getType() {
-        return Type.AndCondition;
     }
 }

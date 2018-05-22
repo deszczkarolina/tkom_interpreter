@@ -1,6 +1,5 @@
 package tkom.parser.statements;
 
-import tkom.parser.Node;
 import tkom.parser.Scope;
 import tkom.parser.Value;
 
@@ -27,11 +26,5 @@ public class ReturnStatement extends Statement {
             scope.getFunCall().setValue(value);
         return true;
     }
-
-    @Override
-    public Node.Type getType() {
-        return Node.Type.ReturnStatement;
-    }
-
 
 }

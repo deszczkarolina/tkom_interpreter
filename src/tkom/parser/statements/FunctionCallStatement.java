@@ -6,7 +6,10 @@ import tkom.parser.expressions.AddExpression;
 import tkom.parser.types.Rectangle;
 import tkom.scanner.TokenType;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Vector;
 
 /**
  * Created by karolina on 24.04.18.
@@ -69,11 +72,6 @@ public class FunctionCallStatement extends Value {
                 break;
         }
       return result;
-    }
-
-    @Override
-    public Type getType() {
-        return Type.FunctionCallStatement;
     }
 }
 
