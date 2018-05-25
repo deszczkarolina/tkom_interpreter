@@ -1,5 +1,6 @@
 package tkom.parser;
 
+import tkom.exceptions.ParserException;
 import tkom.parser.conditions.AndCondition;
 import tkom.parser.conditions.ComCondition;
 import tkom.parser.conditions.Condition;
@@ -17,7 +18,6 @@ import tkom.scanner.TokenType;
 
 import java.lang.String;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Vector;
 
 import static tkom.scanner.TokenType.*;
@@ -68,35 +68,16 @@ public class Parser {
         currentToken = scn.nextToken();
     }
 
-    private boolean accept(List<TokenType> acceptableTokens) throws Exception {
-        if (acceptableTokens.contains(currentToken))
-            return true;
-        else {
-            SyntaxErrorExpectedToken(acceptableTokens);
-            return false;
-        }
+    private void accept(Vector<TokenType> acceptableTokens) throws Exception {
+        if (!acceptableTokens.contains(currentToken))
+            throw new ParserException(currentToken, acceptableTokens, scn.getTokenPos());
     }
 
-    private boolean accept(TokenType acceptableToken) throws Exception {
-        if (acceptableToken == currentToken)
-            return true;
-        SyntaxErrorExpectedToken(acceptableToken);
-        return false;
+    private void accept(TokenType acceptableToken) throws Exception {
+        if (acceptableToken != currentToken)
+            throw new ParserException(currentToken, acceptableToken, scn.getTokenPos());
     }
 
-    private void SyntaxErrorExpectedToken(List<TokenType> expectedTokens) {
-
-        throw new RuntimeException("unexpected token  " + currentToken +
-                "expected tokens: " + expectedTokens.toString() +
-                "at position " + scn.getTokenPos().toString());
-    }
-
-    private void SyntaxErrorExpectedToken(TokenType expectedToken) {
-
-        throw new RuntimeException("unexpected token  " + currentToken +
-                "expected tokens: " + expectedToken.toString() +
-                "at position " + scn.getTokenPos().toString());
-    }
 
 
     public Program parse() throws Exception {
@@ -104,22 +85,18 @@ public class Parser {
         Vector<FunctionDefinition> functions = new Vector<>();
         while (currentToken != EOF && (tmp = parseFunction()) != null)
             functions.add(tmp);
-        if (!accept(EOF))
-            return null;
+        accept(EOF);
         return new Program(functions);
     }
 
     private FunctionDefinition parseFunction() throws Exception {
-        if (!accept(types))
-            return null;
+        accept(types);
         TokenType t = currentToken;
         nextToken();
-        if (!accept(ident))
-            return null;
+        accept(ident);
         nextToken();
         String name = scn.getIdent();
-        if (!accept(lbracket))
-            return null;
+        accept(lbracket);
         nextToken();
 
         LinkedHashMap<String, TokenType> parameters = new LinkedHashMap<>();
@@ -127,24 +104,20 @@ public class Parser {
         if (types.contains(currentToken)) {
             type = currentToken;
             nextToken();
-            if (!accept(ident))
-                return null;
+            accept(ident);
             parameters.put(scn.getIdent(), type);
             nextToken();
             while (currentToken == coma) {
                 nextToken();
-                if (!accept(types))
-                    return null;
+                accept(types);
                 type = currentToken;
                 nextToken();
-                if (!accept(ident))
-                    return null;
+                accept(ident);
                 parameters.put(scn.getIdent(), type);
                 nextToken();
             }
         }
-        if (!accept(rbracket))
-            return null;
+        accept(rbracket);
         nextToken();
         BlockStatement blockStatement;
         if ((blockStatement = parseBlockStatement()) == null)
@@ -169,8 +142,7 @@ public class Parser {
                 (tmp = parseVarDeclarationStatement()) != null) {
             statements.add(tmp);
         }
-        if (!accept(rcurlybracket))
-            return null;
+        accept(rcurlybracket);
         nextToken();
         return new BlockStatement(statements);
     }
@@ -181,43 +153,32 @@ public class Parser {
         if (currentToken != Rectangle)
             return null;
         nextToken();
-        if (!accept(TokenType.ident))
-            return null;
+        accept(TokenType.ident);
         ident = scn.getIdent();
         nextToken();
-        if (!accept(lbracket))
-            return null;
+        accept(lbracket);
         nextToken();
-        if (!accept(intconst))
-            return null;
+        accept(intconst);
         x = scn.getConstint();
         nextToken();
-        if (!accept(coma))
-            return null;
+        accept(coma);
         nextToken();
-        if (!accept(intconst))
-            return null;
+        accept(intconst);
         y = scn.getConstint();
         nextToken();
-        if (!accept(coma))
-            return null;
+        accept(coma);
         nextToken();
-        if (!accept(intconst))
-            return null;
+        accept(intconst);
         width = scn.getConstint();
         nextToken();
-        if (!accept(coma))
-            return null;
+        accept(coma);
         nextToken();
-        if (!accept(intconst))
-            return null;
+        accept(intconst);
         length = scn.getConstint();
         nextToken();
-        if (!accept(rbracket))
-            return null;
+        accept(rbracket);
         nextToken();
-        if (!accept(semicolon))
-            return null;
+        accept(semicolon);
         nextToken();
         return new RectangleDeclarationStatement(new Rectangle(x, y, width, length), ident);
     }
@@ -228,16 +189,14 @@ public class Parser {
         if (!types.contains(currentToken))
             return null;
         nextToken();
-        if (!accept(ident))
-            return null;
+        accept(ident);
         name = scn.getIdent();
         nextToken();
         if (currentToken == semicolon) {
             nextToken();
             return new VarDeclarationStatement(name);
         }
-        if (!accept(assignop))
-            return null;
+        accept(assignop);
         nextToken();
 
         if ((initialization = parseAddExpression()) == null &&
@@ -245,8 +204,7 @@ public class Parser {
                 (initialization = parseLogicalValue()) == null) {
             return null;
         }
-        if (!accept(semicolon))
-            return null;
+        accept(semicolon);
         nextToken();
         return new VarDeclarationStatement(name, initialization);
     }
@@ -262,20 +220,17 @@ public class Parser {
 
         if (currentToken == dot) {
             nextToken();
-            if (!accept(rectangleFields))
-                return null;
+            accept(rectangleFields);
             field = currentToken;
             nextToken();
         }
 
-        if (!accept(assignop))
-            return null;
+        accept(assignop);
         nextToken();
         if ((rhs = parseAddExpression()) == null)
             if ((rhs = parseLogicalValue()) == null)
                 return null;
-        if (!accept(semicolon))
-            return null;
+        accept(semicolon);
         nextToken();
         if (field != null)
             return new AssignStatement(ident, rhs, field);
@@ -287,8 +242,7 @@ public class Parser {
         if (currentToken != Print)
             return null;
         nextToken();
-        if (!accept(lbracket))
-            return null;
+        accept(lbracket);
         nextToken();
         if (currentToken == textconst) {
             expr = new Text(scn.getIdent());
@@ -296,11 +250,9 @@ public class Parser {
         } else if ((expr = parseAddExpression()) == null)
             return null;
 
-        if (!accept(rbracket))
-            return null;
+        accept(rbracket);
         nextToken();
-        if (!accept(semicolon))
-            return null;
+        accept(semicolon);
         nextToken();
         return new PrintStatement(expr);
     }
@@ -322,12 +274,9 @@ public class Parser {
                 arguments.add(tmp);
             }
         }
-        if (!accept(rbracket))
-            return null;
+        accept(rbracket);
         nextToken();
-        if (!accept(semicolon))
-            return null;
-
+        accept(semicolon);
         return new FunctionCallStatement(name, arguments);
     }
 
@@ -341,8 +290,7 @@ public class Parser {
            if ((expression = parseText()) == null)
                if ((expression = parseLogicalValue()) == null)
                        return null;
-        if (!accept(semicolon))
-            return null;
+        accept(semicolon);
         nextToken();
         return new ReturnStatement(expression);
     }
@@ -353,13 +301,11 @@ public class Parser {
         if (currentToken != While)
             return null;
         nextToken();
-        if (!accept(lbracket))
-            return null;
+        accept(lbracket);
         nextToken();
         if ((condition = parseOrCondition()) == null)
             return null;
-        if (!accept(rbracket))
-            return null;
+        accept(rbracket);
         nextToken();
         if ((block = parseBlockStatement()) == null)
             return null;
@@ -374,16 +320,13 @@ public class Parser {
         if (currentToken != If)
             return null;
         nextToken();
-        if (!accept(lbracket))
-            return null;
+        accept(lbracket);
         nextToken();
         if ((condition = parseOrCondition()) == null)
             return null;
-        if (!accept(rbracket))
-            return null;
+        accept(rbracket);
         nextToken();
-        if (!accept(Then))
-            return null;
+        accept(Then);
         nextToken();
         if ((trueBlock = parseBlockStatement()) == null)
             return null;
@@ -436,16 +379,14 @@ public class Parser {
             nextToken();
             if ((operand = parseAddExpression()) == null)
                 return null;
-            if (!accept(rbracket))
-                return null;
+            accept(rbracket);
             nextToken();
         } else if (currentToken == ident) {
             String ident = scn.getIdent();
             nextToken();
             if (currentToken == dot) {
                 nextToken();
-                if (!accept(rectangleFields))
-                    return null;
+                accept(rectangleFields);
                 operand = new Variable(ident, currentToken);
                 nextToken();
                 return new Expression(operand, negate);
@@ -506,8 +447,7 @@ public class Parser {
 
         if ((lexpr = parseAddExpression()) == null)
             return null;
-        if (!accept(relOp))
-            return null;
+        accept(relOp);
         op = currentToken;
         nextToken();
         if ((rexpr = parseAddExpression()) == null)
@@ -526,8 +466,7 @@ public class Parser {
             nextToken();
             if ((operand = parseOrCondition()) == null)
                 return null;
-            if (accept(rbracket))
-                return null;
+            accept(rbracket);
         } else if ((operand = parseCondition()) == null)
             return null;
         return new ComCondition(operand, negate);

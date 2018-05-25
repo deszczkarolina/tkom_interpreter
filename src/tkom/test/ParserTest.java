@@ -20,6 +20,16 @@ import static org.junit.Assert.assertEquals;
  */
 public class ParserTest {
 
+
+    private Program test;
+
+    private void init(String txt) throws Exception {
+        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
+        Scanner scn = new Scanner(in);
+        Parser parser = new Parser(scn);
+        test = parser.parse();
+    }
+
     @Rule
     public ExpectedException expectedEx = ExpectedException.none();
 
@@ -27,10 +37,7 @@ public class ParserTest {
     public void parseEmptyString() throws Exception {
 
         String txt = "";
-        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
-        Scanner scn = new Scanner(in);
-        Parser parser = new Parser(scn);
-        Program test = parser.parse();
+        init(txt);
         expectedEx.expect(Exception.class);
         expectedEx.expectMessage("main not found");
         test.execute();
@@ -39,10 +46,7 @@ public class ParserTest {
     @Test
     public void parseIntInitialization() throws Exception {
         String txt = "int main(){int a = 5; return a;}";
-        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
-        Scanner scn = new Scanner(in);
-        Parser parser = new Parser(scn);
-        Program test = parser.parse();
+        init(txt);
         test.execute();
         assertEquals(5, test.getValue());
     }
@@ -50,10 +54,7 @@ public class ParserTest {
     @Test
     public void parseStringInitialization() throws Exception {
         String txt = "string main(){string a = \"test\"; return a;}";
-        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
-        Scanner scn = new Scanner(in);
-        Parser parser = new Parser(scn);
-        Program test = parser.parse();
+        init(txt);
         test.execute();
         assertEquals("test", test.getValue());
     }
@@ -61,10 +62,7 @@ public class ParserTest {
     @Test
     public void parseBoolInitialization() throws Exception {
         String txt = "bool main(){bool a = false; return a;}";
-        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
-        Scanner scn = new Scanner(in);
-        Parser parser = new Parser(scn);
-        Program test = parser.parse();
+        init(txt);
         test.execute();
         assertEquals(false, test.getValue());
     }
@@ -73,10 +71,7 @@ public class ParserTest {
     public void parseRectangleInitialization() throws Exception {
 
         String txt = "Rectangle main(){Rectangle a(1,1,1,1); return a;}";
-        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
-        Scanner scn = new Scanner(in);
-        Parser parser = new Parser(scn);
-        Program test = parser.parse();
+        init(txt);
         test.execute();
         assertEquals(1, ((Rectangle) test.getValue()).getArea());
         assertEquals(4, ((Rectangle) test.getValue()).getPerimeter());
@@ -89,43 +84,31 @@ public class ParserTest {
     @Test
     public void parseBooleanAssignment() throws Exception {
         String txt = "bool main(){bool test = false; test = true; return test;}";
-        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
-        Scanner scn = new Scanner(in);
-        Parser parser = new Parser(scn);
-        Program program = parser.parse();
-        program.execute();
-        assertEquals(true, program.getValue());
+        init(txt);
+        test.execute();
+        assertEquals(true, test.getValue());
     }
 
     @Test
     public void parseNegatedExpression() throws Exception {
         String txt = "int main(){int a = -5; return a;}";
-        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
-        Scanner scn = new Scanner(in);
-        Parser parser = new Parser(scn);
-        Program program = parser.parse();
-        program.execute();
-        assertEquals(-5, program.getValue());
+        init(txt);
+        test.execute();
+        assertEquals(-5, test.getValue());
     }
 
     @Test
     public void parseMathExpression() throws Exception {
         String txt = "int main(){int a = 1-(-2); return a;}";
-        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
-        Scanner scn = new Scanner(in);
-        Parser parser = new Parser(scn);
-        Program program = parser.parse();
-        program.execute();
-        assertEquals(3, program.getValue());
+        init(txt);
+        test.execute();
+        assertEquals(3, test.getValue());
     }
 
     @Test
     public void parseIfStatement() throws Exception {
         String txt = "int main(){int c = 4; if(c < 10) then {c = c+5;} return c;}";
-        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
-        Scanner scn = new Scanner(in);
-        Parser parser = new Parser(scn);
-        Program test = parser.parse();
+        init(txt);
         test.execute();
         assertEquals(9, test.getValue());
     }
@@ -134,10 +117,7 @@ public class ParserTest {
     public void parseIfElseStatement() throws Exception {
         String txt = "int main(){int c = 4; if(c > 10) then {c = c+5;}" +
                         " else {c = 1;}return c;}";
-        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
-        Scanner scn = new Scanner(in);
-        Parser parser = new Parser(scn);
-        Program test = parser.parse();
+        init(txt);
         test.execute();
         assertEquals(1, test.getValue());
     }
@@ -147,10 +127,7 @@ public class ParserTest {
         String txt = "int main(){int c=1; int a=1; while (c<3) " +
                         "{c = c + 1; a = a - 1;}" +
                         "return a;}";
-        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
-        Scanner scn = new Scanner(in);
-        Parser parser = new Parser(scn);
-        Program test = parser.parse();
+        init(txt);
         test.execute();
         assertEquals(-1, test.getValue());
     }
@@ -160,10 +137,7 @@ public class ParserTest {
         final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         String txt = "int main(){int c = 1; print(c); return c;}";
-        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
-        Scanner scn = new Scanner(in);
-        Parser parser = new Parser(scn);
-        Program test = parser.parse();
+        init(txt);
         test.execute();
         assertEquals("1", outContent.toString());
     }
@@ -172,10 +146,7 @@ public class ParserTest {
         final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         String txt = "int main(){print(\"test text\"); return 0;}";
-        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
-        Scanner scn = new Scanner(in);
-        Parser parser = new Parser(scn);
-        Program test = parser.parse();
+        init(txt);
         test.execute();
         assertEquals("test text", outContent.toString());
     }
@@ -184,10 +155,7 @@ public class ParserTest {
         final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outContent));
         String txt = "int main(){int c = 1; print(2*c+6); return c;}";
-        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
-        Scanner scn = new Scanner(in);
-        Parser parser = new Parser(scn);
-        Program test = parser.parse();
+        init(txt);
         test.execute();
         assertEquals("8", outContent.toString());
     }
@@ -195,10 +163,7 @@ public class ParserTest {
     public void parseRectangleFieldAccess() throws Exception {
         String txt = "int main(){Rectangle r1(0,5,4,3); Rectangle r2(1,1,1,1); " +
                 "return r2.perimeter+r1.perimeter;}";
-        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
-        Scanner scn = new Scanner(in);
-        Parser parser = new Parser(scn);
-        Program test = parser.parse();
+        init(txt);
         test.execute();
         assertEquals(18, test.getValue());
     }
@@ -206,10 +171,7 @@ public class ParserTest {
     public void parseRectangleFieldChange() throws Exception {
         String txt = "Rectangle main(){Rectangle r1(0,5,4,3);  " +
                 "r1.width = 3; return r1;}";
-        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
-        Scanner scn = new Scanner(in);
-        Parser parser = new Parser(scn);
-        Program test = parser.parse();
+        init(txt);
         test.execute();
         assertEquals(9, ((Rectangle) test.getValue()).getArea());
         assertEquals(12, ((Rectangle) test.getValue()).getPerimeter());
@@ -222,10 +184,7 @@ public class ParserTest {
     public void parseAddRectangles() throws Exception {
         String txt = "Rectangle main(){Rectangle r1(0,0,4,3);  " +
                 "Rectangle r2(4,3,1,1); return r1+r2;}";
-        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
-        Scanner scn = new Scanner(in);
-        Parser parser = new Parser(scn);
-        Program test = parser.parse();
+        init(txt);
         test.execute();
         assertEquals(20, ((Rectangle) test.getValue()).getArea());
         assertEquals(18, ((Rectangle) test.getValue()).getPerimeter());
@@ -238,10 +197,7 @@ public class ParserTest {
     public void parseScaleRectangles() throws Exception {
         String txt = "Rectangle main(){Rectangle r1(0,0,4,3);  " +
                 "int a = 5; return a*r1;}";
-        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
-        Scanner scn = new Scanner(in);
-        Parser parser = new Parser(scn);
-        Program test = parser.parse();
+        init(txt);
         test.execute();
         assertEquals(300, ((Rectangle) test.getValue()).getArea());
         assertEquals(70, ((Rectangle) test.getValue()).getPerimeter());
@@ -254,10 +210,7 @@ public class ParserTest {
     public void parseMultiplySeparableRectangles() throws Exception {
         String txt = "Rectangle main(){Rectangle r1(0,0,4,3);  " +
                 "Rectangle r2(4,3,1,1); return r1*r2;}";
-        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
-        Scanner scn = new Scanner(in);
-        Parser parser = new Parser(scn);
-        Program test = parser.parse();
+        init(txt);
         test.execute();
         assertEquals(0, ((Rectangle) test.getValue()).getArea());
         assertEquals(0, ((Rectangle) test.getValue()).getPerimeter());
@@ -270,10 +223,7 @@ public class ParserTest {
     public void parseMultiplyNonSeparableRectangles() throws Exception {
         String txt = "Rectangle main(){Rectangle r1(0,0,4,3);  " +
                 "Rectangle r2(1,1,1,1); return r1*r2;}";
-        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
-        Scanner scn = new Scanner(in);
-        Parser parser = new Parser(scn);
-        Program test = parser.parse();
+        init(txt);
         test.execute();
         assertEquals(1, ((Rectangle) test.getValue()).getArea());
         assertEquals(4, ((Rectangle) test.getValue()).getPerimeter());
@@ -286,10 +236,7 @@ public class ParserTest {
     public void parseCompareRectangles() throws Exception {
         String txt = "int main(){Rectangle r1(0,0,4,3);" +
                 "Rectangle r2(4,3,1,1); if(r1>r2) then {return 1;} else {return 2;}}";
-        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
-        Scanner scn = new Scanner(in);
-        Parser parser = new Parser(scn);
-        Program test = parser.parse();
+        init(txt);
         test.execute();
         assertEquals(1, test.getValue());
      }
@@ -297,10 +244,7 @@ public class ParserTest {
     public void parseCompareEqualRectangles() throws Exception {
         String txt = "int main(){Rectangle r1(0,0,4,3);" +
                 "Rectangle r2(4,3,6,2); if(r1==r2) then {return 1;} else {return 2;}}";
-        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
-        Scanner scn = new Scanner(in);
-        Parser parser = new Parser(scn);
-        Program test = parser.parse();
+        init(txt);
         test.execute();
         assertEquals(1, test.getValue());
     }
@@ -308,23 +252,14 @@ public class ParserTest {
     public void parseFunctionCall() throws Exception {
         String txt = "int add(int a, int b) {int c = a+b; return c;}" +
                 " int main(){int c = 5; int d = 1; return add(c,d);}";
-
-        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
-        Scanner scn = new Scanner(in);
-        Parser parser = new Parser(scn);
-        Program test = parser.parse();
+        init(txt);
         test.execute();
         assertEquals(6, test.getValue());
     }
     @Test
     public void parseInvalidFunctionDefinition() throws Exception {
         String txt = "int main(){return true;}";
-
-        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
-        Scanner scn = new Scanner(in);
-        Parser parser = new Parser(scn);
-        Program test = parser.parse();
-
+        init(txt);
         expectedEx.expect(Exception.class);
         expectedEx.expectMessage("function main returns Int");
         test.execute();
@@ -332,12 +267,16 @@ public class ParserTest {
     @Test
     public void parseNotExistingFunctionCall() throws Exception {
         String txt =  "int main(){return add(c,d);}";
+        init(txt);
+        expectedEx.expect(Exception.class);
+        expectedEx.expectMessage("function add wasn't defined");
+        test.execute();
+    }
 
-        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
-        Scanner scn = new Scanner(in);
-        Parser parser = new Parser(scn);
-        Program test = parser.parse();
-
+    @Test
+    public void parseShit() throws Exception {
+        String txt = "int main(){return add(c,d);}";
+        init(txt);
         expectedEx.expect(Exception.class);
         expectedEx.expectMessage("function add wasn't defined");
         test.execute();
