@@ -31,7 +31,7 @@ public class Application {
             program.execute();
             System.out.println(program.getValue());
         } catch (IOException e) {
-            System.out.println("file " + fileName + "doesn't exist");
+            System.out.println("file " + fileName + " doesn't exist");
         } catch (Exception e) {
             System.out.print(e.toString());
         }

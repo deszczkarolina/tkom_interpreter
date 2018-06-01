@@ -39,23 +39,23 @@ public class FunctionCallStatement extends Value {
         switch (t) {
             case Int:
                 if (!(value instanceof Integer))
-                    throw new ExecutionException("found type " + value.getClass() +
-                            " function " + name + " returns type " + t);
+                    throw new ExecutionException("function " + name + " returns type " + t
+                            + "found type " + value.getClass());
                 break;
             case String:
                 if (!(value instanceof String))
-                    throw new ExecutionException("found type " + value.getClass() +
-                            " function " + name + " returns type " + t);
+                    throw new ExecutionException("function " + name + " returns type " + t
+                            + "found type " + value.getClass());
                 break;
             case Bool:
                 if (!(value instanceof Boolean))
-                    throw new ExecutionException("found type " + value.getClass() +
-                            " function " + name + " returns type " + t);
+                    throw new ExecutionException("function " + name + " returns type " + t
+                            + "found type " + value.getClass());
                 break;
             case Rectangle:
                 if (!(value instanceof Rectangle))
-                    throw new ExecutionException("found type " + value.getClass() +
-                            " function " + name + " returns type " + t);
+                    throw new ExecutionException("function " + name + " returns type " + t
+                            + "found type " + value.getClass());
                 break;
         }
     }
@@ -90,8 +90,9 @@ public class FunctionCallStatement extends Value {
             arg.execute(scope, functions);
             HashMap.Entry it = iterator.next();
             TokenType t = getExpressionType(arg.getValue(), name);
-            //   if (t != function.getParameters().get(name))
-            //    throw new ExecutionException("invalid ")
+            if (t != it.getValue())
+                throw new ExecutionException("calling function " + name + ": invalid argument type, found "
+                        + t + " required " + it.getValue());
             newScope.addVariable(t, (String) it.getKey(), arg.getValue());
         }
 
