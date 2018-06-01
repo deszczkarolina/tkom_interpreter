@@ -21,9 +21,7 @@ public class Bool extends Value {
     public Boolean getValue() {
         return value;
     }
-
     @Override
-    public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
-        return true;
+    public void execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
     }
 }

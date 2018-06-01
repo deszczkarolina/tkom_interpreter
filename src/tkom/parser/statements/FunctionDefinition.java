@@ -39,8 +39,8 @@ public class FunctionDefinition {
     }
 
 
-    public boolean execute(HashMap<String, FunctionDefinition> functions) throws Exception {
+    public void execute(HashMap<String, FunctionDefinition> functions) throws Exception {
         Scope scope = new Scope();
-        return this.block.execute(scope, functions);
+        block.execute(scope, functions);
     }
 }

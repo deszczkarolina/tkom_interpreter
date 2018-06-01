@@ -24,8 +24,7 @@ public class Number extends Value {
     }
 
     @Override
-    public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) {
-        return true;
+    public void execute(Scope scope, HashMap<String, FunctionDefinition> functions) {
     }
 
 }

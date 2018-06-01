@@ -2,6 +2,7 @@ package tkom.parser.statements;
 
 import tkom.parser.Scope;
 import tkom.parser.Value;
+import tkom.scanner.TokenType;
 
 import java.util.HashMap;
 
@@ -10,25 +11,27 @@ import java.util.HashMap;
  */
 public class VarDeclarationStatement extends Statement {
 
-   private String ident;
+    private TokenType type;
+    private String ident;
     private Value initializer;
 
-    public VarDeclarationStatement(String ident) {
-      this.ident = ident;
+    public VarDeclarationStatement(TokenType type, String ident) {
+        this.type = type;
+        this.ident = ident;
     }
 
-    public VarDeclarationStatement(String ident, Value init) {
+    public VarDeclarationStatement(TokenType type, String ident, Value init) {
        this.ident = ident;
         this.initializer = init;
+        this.type = type;
     }
 
     @Override
-    public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
+    public void execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
         if (initializer != null) {
-            if (!initializer.execute(scope, functions))
-                return false;
-            scope.addVariable(ident, initializer.getValue());
-        } else scope.addVariable(ident, null);
-        return true;
+            initializer.execute(scope, functions);
+            scope.addVariable(type, ident, initializer.getValue());
+        } else
+            scope.addVariable(type, ident, null);
     }
 }

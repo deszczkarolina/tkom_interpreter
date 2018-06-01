@@ -1,5 +1,6 @@
 package tkom.parser;
 
+import tkom.exceptions.ExecutionException;
 import tkom.parser.expressions.AddExpression;
 import tkom.parser.statements.FunctionCallStatement;
 import tkom.parser.statements.FunctionDefinition;
@@ -25,22 +26,20 @@ public class Program {
         return value;
     }
 
-    public boolean execute() throws Exception {
+    public void execute() throws Exception {
 
         HashMap<String, FunctionDefinition> definedFunctions = new HashMap<>();
         for (FunctionDefinition it : functions) {
             definedFunctions.put(it.getName(), it);
         }
         if (!definedFunctions.containsKey("main"))
-            throw new Exception("main not found");
+            throw new ExecutionException("main not found");
 
         Vector<AddExpression> arguments = new Vector<>();
         Scope scope = new Scope();
         FunctionCallStatement main = new FunctionCallStatement("main", arguments);
-        if (!main.execute(scope, definedFunctions))
-            return false;
+        main.execute(scope, definedFunctions);
         value = main.getValue();
-        return true;
     }
 }
 

@@ -31,11 +31,9 @@ public class Condition extends Logical {
     }
 
     @Override
-    public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
-        if (!leftOperand.execute(scope, functions))
-            return false;
-        if (!rightOperand.execute(scope, functions))
-            return false;
+    public void execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
+        leftOperand.execute(scope, functions);
+        rightOperand.execute(scope, functions);
 
         switch (logOp) {
             case eqop:
@@ -59,7 +57,6 @@ public class Condition extends Logical {
             default:
                 break;
         }
-        return true;
     }
 
 }

@@ -17,14 +17,12 @@ public class ReturnStatement extends Statement {
     }
 
     @Override
-    public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
-        if (!expression.execute(scope, functions))
-            return false;
+    public void execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
+        expression.execute(scope, functions);
         Object value;
         value = expression.getValue();
         if (scope.getFunCall() != null)
             scope.getFunCall().setValue(value);
-        return true;
     }
 
 }

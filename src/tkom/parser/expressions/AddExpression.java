@@ -29,26 +29,22 @@ public class AddExpression extends Value {
     }
 
     @Override
-    public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
+    public void execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
         Iterator<MulExpression> operandsIt = operands.iterator();
         Iterator<TokenType> operatorsIt = operators.iterator();
         MulExpression tmp;
         TokenType op;
         tmp = operandsIt.next();
-        if (!tmp.execute(scope, functions))
-            return false;
+        tmp.execute(scope, functions);
         value = tmp.getValue();
         while (operandsIt.hasNext()) {
             tmp = operandsIt.next();
-            if (!tmp.execute(scope, functions))
-                return false;
+            tmp.execute(scope, functions);
             op = operatorsIt.next();
             if (op == TokenType.addop)
                 value = add(value, tmp.getValue());
             else
                 value = subtract(value, tmp.getValue());
         }
-        return true;
     }
-
 }

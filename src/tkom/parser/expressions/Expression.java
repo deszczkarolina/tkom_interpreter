@@ -28,13 +28,11 @@ public class Expression extends Value {
     }
 
     @Override
-    public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
-        if (!operand.execute(scope, functions))
-            return false;
+    public void execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
+        operand.execute(scope, functions);
         value = operand.getValue();
         if (negate)
             value = (int) value * (-1);
-        return true;
     }
 
 }

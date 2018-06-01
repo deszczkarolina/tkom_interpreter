@@ -1,5 +1,6 @@
 package tkom.parser.statements;
 
+import tkom.exceptions.ExecutionException;
 import tkom.parser.Scope;
 import tkom.parser.Value;
 import tkom.parser.expressions.AddExpression;
@@ -34,46 +35,67 @@ public class FunctionCallStatement extends Value {
         this.value = value;
     }
 
-    @Override
-    public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
-        FunctionDefinition function = functions.get(name);
+    private void validateReturnedType(TokenType t) throws ExecutionException {
+        switch (t) {
+            case Int:
+                if (!(value instanceof Integer))
+                    throw new ExecutionException("found type " + value.getClass() +
+                            " function " + name + " returns type " + t);
+                break;
+            case String:
+                if (!(value instanceof String))
+                    throw new ExecutionException("found type " + value.getClass() +
+                            " function " + name + " returns type " + t);
+                break;
+            case Bool:
+                if (!(value instanceof Boolean))
+                    throw new ExecutionException("found type " + value.getClass() +
+                            " function " + name + " returns type " + t);
+                break;
+            case Rectangle:
+                if (!(value instanceof Rectangle))
+                    throw new ExecutionException("found type " + value.getClass() +
+                            " function " + name + " returns type " + t);
+                break;
+        }
+    }
 
+    private TokenType getExpressionType(Object value, String name) throws ExecutionException {
+        TokenType t;
+        if (value instanceof Integer)
+            t = TokenType.Int;
+        else if (value instanceof String)
+            t = TokenType.String;
+        else if (value instanceof Boolean)
+            t = TokenType.Bool;
+        else if (value instanceof Rectangle)
+            t = TokenType.Rectangle;
+        else throw new ExecutionException("invalid argument type in function " + name);
+        return t;
+    }
+    @Override
+    public void execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
+        FunctionDefinition function = functions.get(name);
         if (function == null)
-            throw new Exception("function " + name + " wasn't defined");
+            throw new ExecutionException("function " + name + " wasn't defined");
 
         if (function.getParameters().size() != arguments.size())
-            throw new Exception("invalid number of arguments");
+            throw new ExecutionException("invalid number of arguments - function " + name +
+                    " has " + function.getParameters().size() + " arguments");
 
-        TokenType t = function.getFunctionType();
         Iterator<Map.Entry<String, TokenType>> iterator = function.getParameters().entrySet().iterator();
         Scope newScope = new Scope(this);
         for (AddExpression arg : arguments) {
-            if (!arg.execute(scope, functions))
-                return false;
-
+            arg.execute(scope, functions);
             HashMap.Entry it = iterator.next();
-            if (!(newScope.addVariable((String) it.getKey(), arg.getValue()))) ;
+            TokenType t = getExpressionType(arg.getValue(), name);
+            //   if (t != function.getParameters().get(name))
+            //    throw new ExecutionException("invalid ")
+            newScope.addVariable(t, (String) it.getKey(), arg.getValue());
         }
 
-        boolean result = function.getBlock().execute(newScope, functions);
-
-        switch(t){
-            case Int: if(!(value instanceof Integer))
-                throw new Exception("function " + name + " returns " + t);
-                break;
-            case String: if(!(value instanceof String))
-                throw new Exception("function " + name + " returns " + t);
-                break;
-            case Bool: if(!(value instanceof Boolean))
-                throw new Exception("function " + name + " returns " + t);
-                break;
-            case Rectangle: if(!(value instanceof Rectangle))
-                throw new Exception("function " + name + " returns " + t);
-                break;
-        }
-      return result;
+        TokenType expected = function.getFunctionType();
+        function.getBlock().execute(newScope, functions);
+        validateReturnedType(expected);
     }
 }
-
-
-

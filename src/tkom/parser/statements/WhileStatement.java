@@ -10,6 +10,10 @@ import java.util.HashMap;
  */
 public class WhileStatement extends Statement {
 
+    public BlockStatement getBlock() {
+        return block;
+    }
+
     private BlockStatement block;
     private OrCondition condition;
 
@@ -20,15 +24,11 @@ public class WhileStatement extends Statement {
 
 
     @Override
-    public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
-        if (!condition.execute(scope, functions))
-            return false;
+    public void execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
+        condition.execute(scope, functions);
         while (condition.getValue()) {
-            if (!block.execute(scope, functions))
-                return false;
-            if (!condition.execute(scope, functions))
-                return false;
+            block.execute(scope, functions);
+            condition.execute(scope, functions);
         }
-        return true;
     }
 }

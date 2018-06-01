@@ -14,10 +14,6 @@ public class TextPos {
         charIx = 0;
     }
 
-    public TextPos(int lineIx, int charIx) {
-        this.lineIx = lineIx;
-        this.charIx = charIx;
-    }
 
     @Override
     public String toString() {

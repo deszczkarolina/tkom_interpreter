@@ -17,11 +17,9 @@ public class PrintStatement extends Statement {
     }
 
     @Override
-    public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
+    public void execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
 
-        if (!toShow.execute(scope, functions))
-            return false;
+        toShow.execute(scope, functions);
         System.out.print(toShow.getValue());
-        return true;
     }
 }

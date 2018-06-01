@@ -28,14 +28,12 @@ public class AssignStatement extends Statement {
     }
 
     @Override
-    public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
-        if (!value.execute(scope, functions))
-            return false;
+    public void execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
+        value.execute(scope, functions);
         if (field != null)
             scope.changeRectangleFieldValue(ident, field, (int) value.getValue());
         else
              scope.changeVariableValue(ident, value.getValue());
-        return true;
     }
 
 

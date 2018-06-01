@@ -135,8 +135,7 @@ public class Rectangle extends Value {
 
 
     @Override
-    public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
-        return true;
+    public void execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
     }
 
     @Override

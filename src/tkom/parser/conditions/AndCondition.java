@@ -25,16 +25,14 @@ public class AndCondition extends Logical {
     }
 
     @Override
-    public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
+    public void execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
         for (ComCondition it : operands) {
-            if (!it.execute(scope, functions))
-                return false;
+            it.execute(scope, functions);
             if (!it.getValue()) {
                 value = false;
-                return true;
+                return;
             }
         }
         value = true;
-        return true;
     }
 }

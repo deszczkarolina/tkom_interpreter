@@ -32,12 +32,11 @@ public class Variable extends Value {
     }
 
     @Override
-    public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
+    public void execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
         if (value instanceof Rectangle && field != null)
             value = scope.getRectangleFieldValue(name, field);
         else
             value = scope.getVariableValue(name);
-        return true;
     }
 }
 

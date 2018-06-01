@@ -10,6 +10,10 @@ import java.util.Vector;
  */
 public class BlockStatement extends Statement {
 
+    public Vector<Statement> getStatements() {
+        return statements;
+    }
+
     private Vector<Statement> statements;
 
     public BlockStatement(Vector<Statement> statements) {
@@ -17,18 +21,15 @@ public class BlockStatement extends Statement {
     }
 
     @Override
-    public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
+    public void execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
 
         for (Statement instruction : statements) {
             if (instruction instanceof ReturnStatement) {
-                if (!instruction.execute(scope, functions))
-                    return false;
+                instruction.execute(scope, functions);
                 break;
             }
-            if (!instruction.execute(scope, functions))
-                return false;
+            instruction.execute(scope, functions);
         }
-        return true;
     }
 
 

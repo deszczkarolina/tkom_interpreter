@@ -4,6 +4,8 @@ import org.apache.commons.io.IOUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import tkom.exceptions.ExecutionException;
+import tkom.exceptions.ParserException;
 import tkom.parser.Parser;
 import tkom.parser.Program;
 import tkom.parser.types.Rectangle;
@@ -38,8 +40,8 @@ public class ParserTest {
 
         String txt = "";
         init(txt);
-        expectedEx.expect(Exception.class);
-        expectedEx.expectMessage("main not found");
+        expectedEx.expect(ExecutionException.class);
+        // expectedEx.expectMessage("main not found");
         test.execute();
     }
 
@@ -260,26 +262,36 @@ public class ParserTest {
     public void parseInvalidFunctionDefinition() throws Exception {
         String txt = "int main(){return true;}";
         init(txt);
-        expectedEx.expect(Exception.class);
-        expectedEx.expectMessage("function main returns Int");
+        expectedEx.expect(ExecutionException.class);
         test.execute();
     }
     @Test
     public void parseNotExistingFunctionCall() throws Exception {
         String txt =  "int main(){return add(c,d);}";
         init(txt);
-        expectedEx.expect(Exception.class);
-        expectedEx.expectMessage("function add wasn't defined");
+        expectedEx.expect(ExecutionException.class);
         test.execute();
     }
 
     @Test
-    public void parseShit() throws Exception {
-        String txt = "int main(){return add(c,d);}";
-        init(txt);
-        expectedEx.expect(Exception.class);
-        expectedEx.expectMessage("function add wasn't defined");
+    public void doubleReturnThrowsException() throws Exception {
+        String txt = "int main(){return 5;return 8;}";
+        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
+        Scanner scn = new Scanner(in);
+        Parser parser = new Parser(scn);
+        expectedEx.expect(ParserException.class);
+        test = parser.parse();
+    }
+
+    @Test
+    public void commentsIgnore() throws Exception {
+        String txt = "int main(){#comment \n return 1;}";
+        InputStream in = IOUtils.toInputStream(txt, "UTF-8");
+        Scanner scn = new Scanner(in);
+        Parser parser = new Parser(scn);
+        test = parser.parse();
         test.execute();
+        assertEquals(1, test.getValue());
     }
 
 }

@@ -122,10 +122,29 @@ public class Parser {
         BlockStatement blockStatement;
         if ((blockStatement = parseBlockStatement()) == null)
             return null;
-
+        returnExists(blockStatement, name);
         return new FunctionDefinition(t, name, parameters, blockStatement);
     }
 
+    private void returnExists(BlockStatement blockStatement, String name) throws ParserException {
+        if (!(blockStatement.getStatements().lastElement() instanceof ReturnStatement)) {
+            for (Statement stmnt : blockStatement.getStatements()) {
+                if (stmnt instanceof WhileStatement)
+                    for (Statement inner : ((WhileStatement) stmnt).getBlock().getStatements())
+                        if (inner instanceof ReturnStatement)
+                            return;
+
+                if (stmnt instanceof IfStatement && ((IfStatement) stmnt).getTrueBlock() != null
+                        && ((IfStatement) stmnt).getFalseBlock() != null)
+                    for (Statement trueStmnt : ((IfStatement) stmnt).getTrueBlock().getStatements())
+                        if (trueStmnt instanceof ReturnStatement)
+                            for (Statement falseStmnt : ((IfStatement) stmnt).getFalseBlock().getStatements())
+                                if (falseStmnt instanceof ReturnStatement)
+                                    return;
+            }
+            throw new ParserException("missing return statement in function " + name);
+        }
+    }
     private BlockStatement parseBlockStatement() throws Exception {
         if (currentToken != lcurlybracket)
             return null;
@@ -136,9 +155,9 @@ public class Parser {
                 (tmp = parseWhileStatement()) != null ||
                 (tmp = parseReturnStatement()) != null ||
                 (tmp = parseBlockStatement()) != null ||
+                (tmp = parseRectangleDeclaration()) != null ||
                 (tmp = parseAssignStatement()) != null ||
                 (tmp = parsePrintStatement()) != null ||
-                (tmp = parseRectangleDeclaration()) != null ||
                 (tmp = parseVarDeclarationStatement()) != null) {
             statements.add(tmp);
         }
@@ -158,6 +177,12 @@ public class Parser {
         nextToken();
         accept(lbracket);
         nextToken();
+        if (currentToken == rbracket) {
+            nextToken();
+            accept(semicolon);
+            nextToken();
+            return new RectangleDeclarationStatement(new Rectangle(0, 0, 0, 0), ident);
+        }
         accept(intconst);
         x = scn.getConstint();
         nextToken();
@@ -185,16 +210,18 @@ public class Parser {
 
     private VarDeclarationStatement parseVarDeclarationStatement() throws Exception {
         String name;
+        TokenType type;
         Value initialization;
         if (!types.contains(currentToken))
             return null;
+        type = currentToken;
         nextToken();
         accept(ident);
         name = scn.getIdent();
         nextToken();
         if (currentToken == semicolon) {
             nextToken();
-            return new VarDeclarationStatement(name);
+            return new VarDeclarationStatement(type, name);
         }
         accept(assignop);
         nextToken();
@@ -206,7 +233,7 @@ public class Parser {
         }
         accept(semicolon);
         nextToken();
-        return new VarDeclarationStatement(name, initialization);
+        return new VarDeclarationStatement(type, name, initialization);
     }
 
     private AssignStatement parseAssignStatement() throws Exception {
@@ -292,6 +319,7 @@ public class Parser {
                        return null;
         accept(semicolon);
         nextToken();
+        accept(rcurlybracket);
         return new ReturnStatement(expression);
     }
 

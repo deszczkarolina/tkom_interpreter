@@ -29,25 +29,22 @@ public class MulExpression extends Value {
     }
 
     @Override
-    public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
+    public void execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
         Iterator<Expression> operandsIt = operands.iterator();
         Iterator<TokenType> operatorsIt = operators.iterator();
         Expression tmp;
         TokenType op;
         tmp = operandsIt.next();
-        if (!tmp.execute(scope, functions))
-            return false;
+        tmp.execute(scope, functions);
         value = tmp.getValue();
         while (operandsIt.hasNext()) {
             tmp = operandsIt.next();
-            if (!tmp.execute(scope, functions))
-                return false;
+            tmp.execute(scope, functions);
             op = operatorsIt.next();
             if (op == TokenType.mulop)
                 value = multiply(value, tmp.getValue());
             else
                 value = divide(value, tmp.getValue());
         }
-        return true;
     }
 }

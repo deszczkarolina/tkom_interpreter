@@ -83,7 +83,7 @@ public class Scanner {
     private boolean skipWhiteSpace() throws IOException {
         do {
             if (currentChar == Source.EOF) return false;
-            while (isWhitespace(currentChar)) //skip whitespaces
+            while (isWhitespace(currentChar))
                 nextChar();
             if (currentChar == '#') {
                 do nextChar();
@@ -195,7 +195,6 @@ public class Scanner {
         }
         if (isDigit(currentChar))
             return intConstToken();
-
         return operatorToken();
     }
 

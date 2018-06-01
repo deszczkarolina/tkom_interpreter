@@ -26,13 +26,11 @@ public class ComCondition extends Logical {
     }
 
     @Override
-    public boolean execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
-        if (!operand.execute(scope, functions))
-            return false;
+    public void execute(Scope scope, HashMap<String, FunctionDefinition> functions) throws Exception {
+        operand.execute(scope, functions);
         value = operand.getValue();
         if (negate)
             value = !value;
-        return true;
     }
 
 }
