@@ -1,5 +1,3 @@
-package tkom.test;
-
 import org.junit.Test;
 import tkom.source.TextPos;
 
@@ -25,3 +23,4 @@ public class TextPosTest {
     }
 
 }
+

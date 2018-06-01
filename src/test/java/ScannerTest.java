@@ -1,15 +1,14 @@
-package tkom.test;
-
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import tkom.scanner.Scanner;
 
 import java.io.InputStream;
-import java.lang.String;
 
 import static org.junit.Assert.assertEquals;
 import static tkom.scanner.TokenType.*;
 import static tkom.scanner.TokenType.String;
+
+import java.lang.String;
 
 /**
  * Created by karolina on 15.04.18.
@@ -144,3 +143,4 @@ public class ScannerTest {
         assertEquals(EOF, scn.nextToken());
     }
 }
+
