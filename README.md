@@ -17,4 +17,4 @@ Następnie należy przejść do katalogu target i uruchomić program za pomocą
           java -jar tkom_interpreter-1.jar filepath,
 gdzie filepath to ścieżka do pliku w którym znajduje się program, który będzie interpretowany.
 
-merge testing
+merge testing repeat me
